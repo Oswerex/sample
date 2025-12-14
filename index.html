@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="fil">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Safety Training with Assessment</title>
+
+<style>
+    :root {
+        --primary:#0b5fff;
+        --danger:#cc0033;
+        --success:#1a7f37;
+        --muted:#666;
+        --card-bg:#ffffffcc;
+        --bg:#e9efff;
+    }
+    body {
+        background: linear-gradient(135deg,#0b5fff33,#ffffff);
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        line-height: 1.5;
+    }
+    .container { max-width: 900px; margin: auto; }
+    .card {
+        background: var(--card-bg);
+        backdrop-filter: blur(6px);
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+        margin-top: 20px;
+    }
+    .hidden { display:none; }
+    .btn { padding: 10px 16px; border:none; border-radius:6px; cursor:pointer; font-weight:600; }
+    .btn-primary { background: var(--primary); color:#fff; }
+    .btn-muted { background:#e5e5e5; color:#333; }
+
+    input[type="text"] {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        width: 250px;
+    }
+
+    .video-container {
+        position: relative; width:100%; padding-top:56.25%;
+    }
+    .video-container iframe {
+        position:absolute; top:0; left:0; width:100%; height:100%; border-radius:10px;
+    }
+
+    .question { font-weight: 600; margin-bottom: 6px; }
+    .question-block { margin-bottom: 18px; }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<div class="container">
+
+<h2>Video Safety Orientation</h2>
+
+<!-- VIDEO -->
+<div class="card video-card">
+    <h3>Note: Please watch the video until the end to start the assessment</h3>
+    <div class="video-container">
+        <iframe id="trainingVideo" src="https://www.youtube.com/embed/mpDVGwtiy8w?rel=0&enablejsapi=1" 
+                title="Safety Training Video" frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen></iframe>
+    </div>
+    <div style="margin-top:12px;">
+        <label>
+            <input type="checkbox" id="watchedChk" disabled> I confirm that I watched the video.
+        </label>
+    </div>
+</div>
+
+<div class="card">
+    <button id="startBtn" class="btn btn-primary" disabled>Start Assessment</button>
+    <button id="resetBtn" class="btn btn-muted hidden">Reset</button>
+</div>
+
+<!-- ASSESSMENT -->
+<div id="assessment" class="card hidden">
+    <h3>Assessment</h3>
+
+    <!-- QUESTIONS (SAME AS BEFORE) -->
+    <!DOCTYPE html>
+<html lang="fil">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Safety Training with Assessment</title>
+
+<style>
+    :root {
+        --primary:#0b5fff;
+        --danger:#cc0033;
+        --success:#1a7f37;
+        --muted:#666;
+        --card-bg:#ffffffcc;
+        --bg:#e9efff;
+    }
+    body {
+        background: linear-gradient(135deg,#0b5fff33,#ffffff);
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        line-height: 1.5;
+    }
+    .container { max-width: 900px; margin: auto; }
+    .card {
+        background: var(--card-bg);
+        backdrop-filter: blur(6px);
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+        margin-top: 20px;
+    }
+    .hidden { display:none; }
+    .btn { padding: 10px 16px; border:none; border-radius:6px; cursor:pointer; font-weight:600; }
+    .btn-primary { background: var(--primary); color:#fff; }
+    .btn-muted { background:#e5e5e5; color:#333; }
+
+    input[type="text"] {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        width: 250px;
+    }
+
+    .orientation-container {
+        text-align:center;
+    }
+    .orientation-img {
+        max-width:100%;
+        border-radius:10px;
+        margin-bottom:10px;
+    }
+    .orientation-controls {
+        display:flex;
+        justify-content:center;
+        gap:10px;
+    }
+
+    .question { font-weight: 600; margin-bottom: 6px; }
+    .question-block { margin-bottom: 18px; }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<div class="container">
+
+<h2>Safety Orientation</h2>
+
+<!-- IMAGE ORIENTATION -->
+<div class="card orientation-card">
+    <h3>Note: Please view all slides until the end to start the assessment</h3>
+    <div class="orientation-container">
+        <img id="slideImg" class="orientation-img" src="assets/slide1.jpg" alt="Orientation Slide">
+    </div>
+    <div class="orientation-controls">
+        <button id="prevSlideBtn" class="btn btn-muted" disabled>Previous</button>
+        <button id="nextSlideBtn" class="btn btn-primary">Next</button>
+    </div>
+</div>
+
+<div class="card">
+    <label>
+        <input type="checkbox" id="watchedChk" disabled> I confirm that I have viewed all slides.
+    </label>
+    <br><br>
+    <button id="startBtn" class="btn btn-primary" disabled>Start Assessment</button>
+    <button id="resetBtn" class="btn btn-muted hidden">Reset</button>
+</div>
+
+<!-- ASSESSMENT -->
+<div id="assessment" class="card hidden">
+    <h3>Assessment</h3>
+
+    <!-- Questions -->
+    <div class="question-block">
+        <label class="question">1. What type of facility is Meralco Operating Center?</label><br>
+        <label><input type="radio" name="q1" value="Smoke-free"> Smoke-free</label><br>
+        <label><input type="radio" name="q1" value="Pet Friendly"> Pet Friendly</label><br>
+        <label><input type="radio" name="q1" value="Smoke-free and Pet Friendly"> Smoke-free and Pet Friendly</label><br>
+        <label><input type="radio" name="q1" value="None"> None of the above</label>
+    </div>
+
+    <!-- Remaining questions same as original code... -->
+    <!-- (q2–q10, name input, buttons remain unchanged) -->
+    <div class="question-block">
+        <label class="question">Name:</label><br>
+        <input type="text" id="traineeName" placeholder="Juan Dela Cruz">
+    </div>
+
+    <button id="submitBtn" class="btn btn-primary">Submit</button>
+    <button id="retakeBtn" class="btn btn-muted hidden">Retake Assessment</button>
+</div>
+
+<div id="result" class="card hidden"></div>
+
+</div>
+
+<script>
+// ---- SAME FUNCTIONS (NO CHANGE EXCEPT IMAGE ORIENTATION) ----
+
+const watchedChk=document.getElementById('watchedChk');
+const startBtn=document.getElementById('startBtn');
+const assessment=document.getElementById('assessment');
+const resetBtn=document.getElementById('resetBtn');
+const submitBtn=document.getElementById('submitBtn');
+const retakeBtn=document.getElementById('retakeBtn');
+const resultDiv=document.getElementById('result');
+
+let attemptCount=1;
+
+// IMAGE ORIENTATION LOGIC
+const slides = [
+    "assets/slide1.jpg",
+    "assets/slide2.jpg",
+    "assets/slide3.jpg",
+    "assets/slide4.jpg"
+];
+let currentSlide = 0;
+
+const slideImg = document.getElementById('slideImg');
+const prevSlideBtn = document.getElementById('prevSlideBtn');
+const nextSlideBtn = document.getElementById('nextSlideBtn');
+
+function updateSlide() {
+    slideImg.src = slides[currentSlide];
+    prevSlideBtn.disabled = currentSlide === 0;
+    nextSlideBtn.disabled = currentSlide === slides.length - 1;
+    watchedChk.disabled = currentSlide !== slides.length - 1;
+    if (!watchedChk.disabled) watchedChk.checked = false;
+}
+
+prevSlideBtn.addEventListener('click', () => {
+    if (currentSlide > 0) currentSlide--;
+    updateSlide();
+});
+
+nextSlideBtn.addEventListener('click', () => {
+    if (currentSlide < slides.length - 1) currentSlide++;
+    updateSlide();
+});
+
+watchedChk.addEventListener('change', () => { startBtn.disabled = !watchedChk.checked; });
+
+startBtn.addEventListener('click', () => {
+    assessment.classList.remove('hidden');
+    resetBtn.classList.remove('hidden');
+    resultDiv.classList.add('hidden');
+});
+
+resetBtn.addEventListener('click', resetAll);
+retakeBtn.addEventListener('click', () => { attemptCount++; resetAll(); });
+
+function resetAll() {
+    for(let i=1;i<=10;i++){
+        let c=document.querySelector(`input[name="q${i}"]:checked`);
+        if(c) c.checked=false;
+    }
+    document.getElementById('traineeName').value="";
+    resultDiv.innerHTML="";
+    resultDiv.classList.add('hidden');
+}
+
+// ASSESSMENT SUBMIT
+submitBtn.addEventListener('click', async () => {
+    let score=0;
+
+    if(document.querySelector('input[name="q1"]:checked')?.value==="Smoke-free and Pet Friendly") score++;
+    if(document.querySelector('input[name="q2"]:checked')?.value==="30KPH") score++;
+    if(document.querySelector('input[name="q3"]:checked')?.value==="PASS") score++;
+    if(document.querySelector('input[name="q4"]:checked')?.value==="All of the above") score++;
+    if(document.querySelector('input[name="q5"]:checked')?.value==="Evacuate") score++;
+    if(document.querySelector('input[name="q6"]:checked')?.value==="Visibility") score++;
+    if(document.querySelector('input[name="q7"]:checked')?.value==="Assembly") score++;
+    if(document.querySelector('input[name="q8"]:checked')?.value==="Black") score++;
+    if(document.querySelector('input[name="q9"]:checked')?.value==="Green") score++;
+    if(document.querySelector('input[name="q10"]:checked')?.value==="Blue") score++;
+
+    let name=document.getElementById('traineeName').value.trim();
+    if(!name) return alert("Pakilagay ang pangalan.");
+
+    let result=(score===10)?"PASS":"FAIL";
+
+    // Google Sheet POST
+    const APP_SCRIPT_URL="https://script.google.com/macros/s/AKfycbyBql2dvKoJ0IuzXEXOAhsgABQy1_il_bFJrXPMB1EbMvqyOVvhLckFZaMRZAsx6TpZ/exec";
+    const SECRET="V9x!7Qm#4sP@2kT8zL$1gR";
+    try{
+        await fetch(APP_SCRIPT_URL,{
+            method:"POST",
+            mode:"no-cors",
+            headers:{ "Content-Type":"application/json" },
+            body:JSON.stringify({ token:SECRET, name:name, score:score, result:result, attempts:attemptCount })
+        });
+    }catch(e){}
+
+    resultDiv.classList.remove('hidden');
+    if(result==="PASS"){
+        resultDiv.innerHTML="<h3 class='result-pass'>PASADO!</h3><p>Generating certificate…</p>";
+        generateCertificate(name);
+        retakeBtn.classList.add('hidden');
+    } else {
+        resultDiv.innerHTML="<h3 class='result-fail'>You FAILED.</h3><p>Try again.</p>";
+        retakeBtn.classList.remove('hidden');
+    }
+});
+
+// CERTIFICATE GENERATION
+async function generateCertificate(name){
+    const {jsPDF}=window.jspdf;
+    const doc=new jsPDF({unit:"pt",format:"a4"});
+
+    // ORANGE HEADER
+    doc.setFillColor(255,140,0);
+    doc.rect(0,0,595,80,'F');
+
+    // ADD LOGO
+    const img = new Image();
+    img.src="https://raw.githubusercontent.com/Oswerex/ESH/6acfa4af336cce3696a01fea102eeaa626a67e01/ESHM%20Logo.png";
+    img.onload=function(){
+        doc.addImage(img,'PNG',241,10,108,72);
+
+        // TITLE
+        doc.setFontSize(28);
+        doc.setTextColor(0,0,0);
+        doc.text("Certificate of Completion",300,120,{align:"center"});
+
+        // LABEL
+        doc.setFontSize(16);
+        doc.text("This certifies that:", 300, 210, { align: "center" });
+
+        // NAME
+        doc.setFontSize(24);
+        doc.text(name.toUpperCase(), 300, 245, { align: "center" });
+
+        // COMPLETION TEXT
+        doc.setFontSize(14);
+        doc.text("Successfully completed the Safety Orientation Assessment",300,285,{align:"center"});
+
+        doc.save(`Certificate_${name}.pdf`);
+    }
+}
+
+// Initialize first slide
+updateSlide();
+</script>
+
+</body>
+</html>
+
+
+    <div class="question-block">
+        <label class="question">Name:</label><br>
+        <input type="text" id="traineeName" placeholder="Juan Dela Cruz">
+    </div>
+
+    <button id="submitBtn" class="btn btn-primary">Submit</button>
+    <button id="retakeBtn" class="btn btn-muted hidden">Retake Assessment</button>
+</div>
+
+<div id="result" class="card hidden"></div>
+
+</div>
+
+<script>
+// ---- SAME FUNCTIONS (NO CHANGE EXCEPT VIDEO) ----
+
+const watchedChk=document.getElementById('watchedChk');
+const startBtn=document.getElementById('startBtn');
+const assessment=document.getElementById('assessment');
+const resetBtn=document.getElementById('resetBtn');
+const submitBtn=document.getElementById('submitBtn');
+const retakeBtn=document.getElementById('retakeBtn');
+const resultDiv=document.getElementById('result');
+const trainingVideo=document.getElementById('trainingVideo');
+
+const APP_SCRIPT_URL="https://script.google.com/macros/s/AKfycbyBql2dvKoJ0IuzXEXOAhsgABQy1_il_bFJrXPMB1EbMvqyOVvhLckFZaMRZAsx6TpZ/exec";
+const SECRET="V9x!7Qm#4sP@2kT8zL$1gR";
+
+let attemptCount=1;
+
+// YouTube API event for detecting video end
+let tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+document.body.appendChild(tag);
+
+let player;
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('trainingVideo', {
+        events: {
+            'onStateChange': onPlayerStateChange
+        }
+    });
+}
+
+function onPlayerStateChange(event) {
+    // Video ended
+    if(event.data === YT.PlayerState.ENDED) {
+        watchedChk.disabled=false;
+    }
+}
+
+watchedChk.addEventListener('change',()=>{ startBtn.disabled=!watchedChk.checked; });
+
+startBtn.addEventListener('click',()=>{ assessment.classList.remove('hidden'); resetBtn.classList.remove('hidden'); resultDiv.classList.add('hidden'); });
+
+resetBtn.addEventListener('click',()=>{ for(let i=1;i<=10;i++){ let c=document.querySelector(`input[name="q${i}"]:checked`); if(c)c.checked=false; } document.getElementById('traineeName').value=""; resultDiv.innerHTML=""; resultDiv.classList.add('hidden'); });
+
+retakeBtn.addEventListener('click',()=>{ attemptCount++; resetBtn.click(); });
+
+submitBtn.addEventListener('click',async()=>{
+    let score=0;
+    if(document.querySelector('input[name="q1"]:checked')?.value==="Smoke-free and Pet Friendly") score++;
+    if(document.querySelector('input[name="q2"]:checked')?.value==="30KPH") score++;
+    if(document.querySelector('input[name="q3"]:checked')?.value==="PASS") score++;
+    if(document.querySelector('input[name="q4"]:checked')?.value==="All of the above") score++;
+    if(document.querySelector('input[name="q5"]:checked')?.value==="Evacuate") score++;
+    if(document.querySelector('input[name="q6"]:checked')?.value==="Visibility") score++;
+    if(document.querySelector('input[name="q7"]:checked')?.value==="Assembly") score++;
+    if(document.querySelector('input[name="q8"]:checked')?.value==="Black") score++;
+    if(document.querySelector('input[name="q9"]:checked')?.value==="Green") score++;
+    if(document.querySelector('input[name="q10"]:checked')?.value==="Blue") score++;
+
+    let name=document.getElementById('traineeName').value.trim();
+    if(!name) return alert("Pakilagay ang pangalan.");
+
+    let result=(score===10)?"PASS":"FAIL";
+
+    try{
+        await fetch(APP_SCRIPT_URL,{
+            method:"POST",
+            mode:"no-cors",
+            headers:{ "Content-Type":"application/json" },
+            body:JSON.stringify({ token:SECRET, name:name, score:score, result:result, attempts:attemptCount })
+        });
+    }catch(e){}
+
+    resultDiv.classList.remove('hidden');
+    if(result==="PASS"){
+        resultDiv.innerHTML="<h3 class='result-pass'>PASADO!</h3><p>Generating certificate…</p>";
+        generateCertificate(name);
+        retakeBtn.classList.add('hidden');
+    } else {
+        resultDiv.innerHTML="<h3 class='result-fail'>You FAILED.</h3><p>Try again.</p>";
+        retakeBtn.classList.remove('hidden');
+    }
+});
+
+async function generateCertificate(name){
+    const {jsPDF}=window.jspdf;
+    const doc=new jsPDF({unit:"pt",format:"a4"});
+    doc.setFillColor(255,140,0);
+    doc.rect(0,0,595,80,'F');
+    const img = new Image();
+    img.src="https://raw.githubusercontent.com/Oswerex/ESH/6acfa4af336cce3696a01fea102eeaa626a67e01/ESHM%20Logo.png";
+    img.onload=function(){
+        doc.addImage(img,'PNG',241,10,108,72);
+        doc.setFontSize(28);
+        doc.setTextColor(0,0,0);
+        doc.text("Certificate of Completion",300,120,{align:"center"});
+        doc.setFontSize(16);
+        doc.text("This certifies that:", 300, 210, { align: "center" });
+        doc.setFontSize(24);
+        doc.text(name.toUpperCase(), 300, 245, { align: "center" });
+        doc.setFontSize(14);
+        doc.text("Successfully completed the Safety Video Orientation Assessment",300,285,{align:"center"});
+        doc.save(`Certificate_${name}.pdf`);
+    }
+}
+</script>
+
+</body>
+</html>
