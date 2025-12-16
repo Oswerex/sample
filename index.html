@@ -42,9 +42,7 @@ input[type="text"] {
     width:250px;
 }
 
-.orientation-container {
-    text-align:center;
-}
+.orientation-container { text-align:center; }
 .orientation-img {
     max-width:100%;
     border-radius:10px;
@@ -71,7 +69,7 @@ input[type="text"] {
 <div class="card orientation-card">
     <h3>Note: Please view all slides until the end to start the assessment</h3>
     <div class="orientation-container">
-        <img id="slideImg" class="orientation-img" src="assets/slide1.jpg" alt="Orientation Slide">
+        <img id="slideImg" class="orientation-img" src="assets/slide1.jpg">
     </div>
     <div class="orientation-controls">
         <button id="prevSlideBtn" class="btn btn-muted" disabled>Previous</button>
@@ -92,10 +90,17 @@ input[type="text"] {
 <div id="assessment" class="card hidden">
     <h3>Assessment</h3>
     <div id="questionContainer"></div>
+
+    <div class="question-block">
+        <label class="question">Company Name:</label><br>
+        <input type="text" id="companyName" placeholder="ABC Construction Corp.">
+    </div>
+
     <div class="question-block">
         <label class="question">Name:</label><br>
         <input type="text" id="traineeName" placeholder="Juan Dela Cruz">
     </div>
+
     <button id="submitBtn" class="btn btn-primary">Submit</button>
     <button id="retakeBtn" class="btn btn-muted hidden">Retake Assessment</button>
 </div>
@@ -110,6 +115,7 @@ const slides = [];
 for(let i=1;i<=26;i++) slides.push(`assets/slide${i}.jpg`);
 
 let currentSlide = 0;
+let attemptCount = 1;
 
 const slideImg = document.getElementById('slideImg');
 const prevSlideBtn = document.getElementById('prevSlideBtn');
@@ -123,8 +129,6 @@ const retakeBtn = document.getElementById('retakeBtn');
 const resultDiv = document.getElementById('result');
 const questionContainer = document.getElementById('questionContainer');
 
-let attemptCount = 1;
-
 function updateSlide() {
     slideImg.src = slides[currentSlide];
     prevSlideBtn.disabled = currentSlide === 0;
@@ -133,133 +137,185 @@ function updateSlide() {
     if (!watchedChk.disabled) watchedChk.checked = false;
 }
 
-prevSlideBtn.addEventListener('click', () => { if(currentSlide>0) currentSlide--; updateSlide(); });
-nextSlideBtn.addEventListener('click', () => { if(currentSlide<slides.length-1) currentSlide++; updateSlide(); });
+prevSlideBtn.onclick=()=>{ if(currentSlide>0) currentSlide--; updateSlide(); }
+nextSlideBtn.onclick=()=>{ if(currentSlide<slides.length-1) currentSlide++; updateSlide(); }
+watchedChk.onchange=()=> startBtn.disabled=!watchedChk.checked;
 
-watchedChk.addEventListener('change', () => { startBtn.disabled = !watchedChk.checked; });
-
-startBtn.addEventListener('click', () => {
+startBtn.onclick=()=>{
     assessment.classList.remove('hidden');
     resetBtn.classList.remove('hidden');
     resultDiv.classList.add('hidden');
-    renderQuestions(); // render random questions per session
-});
+    renderQuestions();
+}
 
-resetBtn.addEventListener('click', resetAll);
-retakeBtn.addEventListener('click', () => { attemptCount++; resetAll(); renderQuestions(); });
+resetBtn.onclick=()=>resetAll();
+retakeBtn.onclick=()=>{ attemptCount++; resetAll(); renderQuestions(); }
 
 function resetAll(){
     questionContainer.innerHTML="";
     document.getElementById('traineeName').value="";
-    resultDiv.innerHTML="";
+    document.getElementById('companyName').value="";
     resultDiv.classList.add('hidden');
 }
 
-// --- QUESTIONS DATA ---
-const questions = [
-    {q:"Gaano katagal ang bisa ng Work Permit para sa High-Risk na trabaho?", options:["1 araw","1 linggo","1 buwan","6 na buwan"], correct:"1 buwan"},
-    {q:"Anong dokumento ang kailangan kasama ng Work Permit para sa High-Risk na trabaho?", options:["Job Hazard Analysis","MSDS","Work Permit lamang","Safety Checklist"], correct:"Job Hazard Analysis"},
-    {q:"Sino ang dapat naroon bago magsimula ang High-Risk na aktibidad?", options:["Worker lamang","Safety Officer o Supervisor","Engineer","Manager"], correct:"Safety Officer o Supervisor"},
-    {q:"Ano ang maximum speed limit sa loob ng Meralco Operating Center?", options:["20 KPH","30 KPH","40 KPH","50 KPH"], correct:"30 KPH"},
-    {q:"Ano ang unang bawal ayon sa Fire Safety Rules ng Meralco?", options:["Paninigarilyo","Open Flames","Running","Eating"], correct:"Paninigarilyo"},
-    {q:"Ano ang unang dapat gawin kapag may lindol?", options:["Run","Duck – Cover – Hold","Hide","Call"], correct:"Duck – Cover – Hold"},
-    {q:"Kung ikaw ay Heavy Equipment Operator, anong dokumento ang dapat meron ka?", options:["License","Heavy Equipment NC II Certification","Work Permit lamang","Safety Checklist"], correct:"Heavy Equipment NC II Certification"},
-    {q:"Saan ang Emergency Assembly Point sa Area 2?", options:["Sa harap ng parking ng Technical Service Building","Sa likod ng Operation Building","Sa harap ng gate 2","Sa labas ng MERALCO"], correct:"Sa harap ng parking ng Technical Service Building"},
-    {q:"Anong dokumento ang dapat palaging dala kapag may aktibidad sa loob ng Meralco?", options:["Approved Work Permit","ID","Safety Checklist","License"], correct:"Approved Work Permit"},
-    {q:"Anong materyales ang bawal dalhin sa loob ng Meralco Operating Center?", options:["Single-Use Plastics","Food","Bags","Electronics"], correct:"Single-Use Plastics"}
+// QUESTIONS
+const questions=[
+ {q:"Gaano katagal ang bisa ng Work Permit para sa High-Risk na trabaho?",opts:["1 araw","1 linggo","1 buwan","6 na buwan"],a:"1 buwan"},
+ {q:"You are assigned to perform hot work but do not have a work permit. What should you do?",opts:["Start work since you have done it before","Ask a colleague if their permit can be used","Proceed only after obtaining an approved work permit","Perform the task quickly to avoid delays"],a:"Proceed only after obtaining an approved work permit"},
+ {q:"You hear an emergency alarm while working. What should you do?",opts:[" Finish your task quickly before leaving","Panic and run to the nearest exit","Stop work and proceed calmly to the designated assembly area"," Wait for instructions from co-workers"],a:"Stop work and proceed calmly to the designated assembly area"},
+ {q:"Ano ang maximum speed limit?",opts:["20 KPH","30 KPH","40 KPH","50 KPH"],a:"30 KPH"},
+ {q:"There's smoking areas inside the Meralco Compound",opts:["True","False"],a:"False"},
+ {q:"You experienced a minor injury that did not require medical treatment. What should you do?",opts:[" Ignore it since it is minor","Report the incident to your supervisor or safety officer","Treat it yourself and continue working","Only report if it becomes serious"],a:"Report the incident to your supervisor or safety officer"},
+ {q:"Anong Dokumento ang dapat na meron ka kung mag operate ka ng Heavy Equipment?",opts:["License","NC II Certification","Permit","Checklist"],a:"NC II Certification"},
+ {q:"The Job Hazard analysis is required for High-risked activities",opts:["True","False"],a:"True"},
+ {q:"Dokumentong dapat dala kapag meron kang aktibidad sa loob ng kahit anong MERALCO Establishment?",opts:["Approved Work Permit","ID","Checklist","License"],a:"Approved Work Permit"},
+ {q:"Plastic bags are permitted inside any Meralco facility",opts:["True","False"],a:"False"}
 ];
 
-// --- SHUFFLE FUNCTION ---
-function shuffleArray(array) {
-    let arr = array.slice();
-    for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
+// SHUFFLE
+function shuffleArray(arr){
+    let a=arr.slice();
+    for(let i=a.length-1;i>0;i--){
+        const j=Math.floor(Math.random()*(i+1));
+        [a[i],a[j]]=[a[j],a[i]];
     }
-    return arr;
+    return a;
 }
 
-// --- RENDER QUESTIONS RANDOMLY ---
-function renderQuestions() {
+// RENDER QUESTIONS
+function renderQuestions(){
     questionContainer.innerHTML="";
-    const shuffledQuestions = shuffleArray(questions);
-    shuffledQuestions.forEach((qObj, index) => {
-        const block = document.createElement('div');
-        block.className="question-block";
-        block.innerHTML = `<label class="question">${index+1}. ${qObj.q}</label><br>` +
-            qObj.options.map(opt=>`<label><input type="radio" name="q${index+1}" value="${opt}"> ${opt}</label><br>`).join('');
-        block.dataset.correct=qObj.correct;
-        questionContainer.appendChild(block);
+    const shuffled = shuffleArray(questions);
+    shuffled.forEach((q,i)=>{
+        const d=document.createElement("div");
+        d.className="question-block";
+        d.dataset.correct=q.a;
+        d.innerHTML=`<label class="question">${i+1}. ${q.q}</label><br>`+
+            shuffleArray(q.opts).map(o=>`<label><input type="radio" name="q${i}" value="${o}"> ${o}</label><br>`).join("");
+        questionContainer.appendChild(d);
     });
 }
 
-// --- SUBMIT LOGIC WITH RANDOMIZED QUESTIONS ---
-submitBtn.addEventListener('click', async () => {
+// BACK TO START FUNCTION
+function backToStart(messageHTML){
+    setTimeout(()=>{
+        // balik sa orientation
+        assessment.classList.add("hidden");
+        resultDiv.classList.add("hidden");
+
+        // reset slides
+        currentSlide = 0;
+        updateSlide();
+        watchedChk.checked = false;
+        watchedChk.disabled = true;
+        startBtn.disabled = true;
+
+        // clear inputs
+        document.getElementById('traineeName').value = "";
+        document.getElementById('companyName').value = "";
+
+        // reset questions
+        questionContainer.innerHTML = "";
+
+        // optional message sa taas
+        if(messageHTML){
+            const notice = document.createElement("div");
+            notice.className = "card";
+            notice.innerHTML = messageHTML;
+            document.querySelector(".container").prepend(notice);
+
+            setTimeout(()=>notice.remove(),5000);
+        }
+    }, 2500); // konting delay para mabasa result
+}
+
+// SUBMIT
+submitBtn.onclick=async()=>{
     let score=0;
-    const blocks = questionContainer.querySelectorAll(".question-block");
-    blocks.forEach((block, i) => {
-        const selected = block.querySelector('input[type="radio"]:checked');
-        if(selected && selected.value === block.dataset.correct) score++;
+    document.querySelectorAll(".question-block").forEach(b=>{
+        const s=b.querySelector("input:checked");
+        if(s && s.value === b.dataset.correct) score++;
     });
 
-    let name = document.getElementById('traineeName').value.trim();
-    if(!name) return alert("Pakilagay ang pangalan.");
+    const name=document.getElementById("traineeName").value.trim();
+    const company=document.getElementById("companyName").value.trim();
+    if(!name||!company) return alert("Please complete Name and Company.");
 
-    let result = (score===10) ? "PASS" : "FAIL";
+    const result=score===10?"PASS":"FAIL";
 
-    const APP_SCRIPT_URL="https://script.google.com/macros/s/AKfycbyBql2dvKoJ0IuzXEXOAhsgABQy1_il_bFJrXPMB1EbMvqyOVvhLckFZaMRZAsx6TpZ/exec";
+    const APP_SCRIPT_URL="https://script.google.com/macros/s/AKfycbzn_Iqm9qs5jbi07FqRAFEnzpxoDyEndCfghptRDJdkxo_KYea6bqQBMZeOOUVW8vYc/exec";
     const SECRET="V9x!7Qm#4sP@2kT8zL$1gR";
 
-    try{
-        await fetch(APP_SCRIPT_URL,{
-            method:"POST",
-            mode:"no-cors",
-            headers:{ "Content-Type":"application/json" },
-            body:JSON.stringify({ token:SECRET, name:name, score:score, result:result, attempts:attemptCount })
-        });
-    }catch(e){}
+    await fetch(APP_SCRIPT_URL,{
+        method:"POST",
+        mode:"no-cors",
+        headers:{ "Content-Type":"application/json" },
+        body:JSON.stringify({
+            token:SECRET,
+            name:name,
+            company:company,
+            score:score,
+            result:result,
+            attempts:attemptCount
+        })
+    });
 
-    resultDiv.classList.remove('hidden');
+    resultDiv.classList.remove("hidden");
+
     if(result==="PASS"){
-        resultDiv.innerHTML="<h3 class='result-pass'>PASADO!</h3><p>Generating certificate…</p>";
-        generateCertificate(name);
-        retakeBtn.classList.add('hidden');
-    } else {
-        resultDiv.innerHTML="<h3 class='result-fail'>You FAILED.</h3><p>Try again.</p>";
-        retakeBtn.classList.remove('hidden');
-    }
-});
+        resultDiv.innerHTML = `
+            <h3>PASADO!</h3>
+            <p>Score: ${score}/10</p>
+            <p>Generating certificate…</p>
+        `;
+        generateCertificate(name,company);
 
-// --- CERTIFICATE FUNCTION ---
-async function generateCertificate(name){
+        backToStart(`
+            <h3 style="color:green">Assessment Completed</h3>
+            <p>You may start a new assessment.</p>
+        `);
+
+    }else{
+        resultDiv.innerHTML = `
+            <h3>FAILED</h3>
+            <p>Score: ${score}/10</p>
+            <p><strong>For Re-assessment</strong></p>
+        `;
+
+        backToStart(`
+            <h3 style="color:#cc0033">For Re-assessment</h3>
+            <p>Previous Score: ${score}/10</p>
+        `);
+    }
+}
+
+// CERTIFICATE
+function generateCertificate(name,company){
     const {jsPDF}=window.jspdf;
     const doc=new jsPDF({unit:"pt",format:"a4"});
 
     doc.setFillColor(255,140,0);
     doc.rect(0,0,595,80,'F');
+    
+    const today=new Date();
+    const validUntil=new Date(today);
+    validUntil.setMonth(today.getMonth()+6);
 
-    const img = new Image();
-    img.src="https://raw.githubusercontent.com/Oswerex/ESH/6acfa4af336cce3696a01fea102eeaa626a67e01/ESHM%20Logo.png";
-    img.onload=function(){
-        doc.addImage(img,'PNG',241,10,108,72);
-        doc.setFontSize(28);
-        doc.setTextColor(0,0,0);
-        doc.text("Certificate of Completion",300,120,{align:"center"});
-        doc.setFontSize(16);
-        doc.text("This certifies that:", 300, 210, { align: "center" });
-        doc.setFontSize(24);
-        doc.text(name.toUpperCase(), 300, 245, { align: "center" });
-        doc.setFontSize(14);
-        doc.text("Successfully completed the Safety Orientation Assessment",300,285,{align:"center"});
-        doc.save(`Certificate_${name}.pdf`);
-    }
+    doc.setFontSize(28);
+    doc.text("Certificate of Completion",300,120,{align:"center"});
+    doc.setFontSize(16);
+    doc.text("This certifies that:",300,200,{align:"center"});
+    doc.setFontSize(24);
+    doc.text(name.toUpperCase(),300,235,{align:"center"});
+    doc.setFontSize(14);
+    doc.text(`Company: ${company}`,300,265,{align:"center"});
+    doc.text("Successfully completed the Safety Orientation Assessment",300,295,{align:"center"});
+    doc.text(`Valid Until: ${validUntil.toDateString()}`,300,330,{align:"center"});
+
+    doc.save(`Certificate_${name}.pdf`);
 }
 
-// initialize first slide
 updateSlide();
 </script>
-
 </body>
 </html>
-
-
